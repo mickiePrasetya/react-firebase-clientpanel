@@ -13,12 +13,8 @@ import notifyReducer from './reducers/notifyReducer';
 import settingsReducer from './reducers/settingsReducer';
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyD9xJe6aoFi4gsD6hk8MQlCnLbANSjj4G4',
-	authDomain: 'react-client-panel-bac78.firebaseapp.com',
-	databaseURL: 'https://react-client-panel-bac78.firebaseio.com',
-	projectId: 'react-client-panel-bac78',
-	storageBucket: 'react-client-panel-bac78.appspot.com',
-	messagingSenderId: '237403539641'
+	// Get your Firebase Config Here
+	// Firebase console > Your Project > Settings > General > "Add Firebase to you web app"
 };
 
 // react-redux-firebase config
@@ -49,8 +45,21 @@ const rootReducer = combineReducers({
 	settings: settingsReducer
 });
 
+// Check for settings in Localstoreage
+if (localStorage.getItem('settings') == null) {
+	// Default settings
+	const defaultSettings = {
+		disableBalanceOnAdd: true,
+		disableBalanceOnEdit: false,
+		allowRegistration: false
+	};
+
+	// set to localstorage
+	localStorage.setItem('settings', JSON.stringify(defaultSettings));
+}
+
 // Create initial state
-const initialState = {};
+const initialState = { settings: JSON.parse(localStorage.getItem('settings')) };
 
 // Create store
 const store = createStoreWithFirebase(
